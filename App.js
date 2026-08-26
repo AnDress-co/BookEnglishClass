@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View style={[styles.container, { backgroundColor: '#0a5200'}]}>
+      <Text style={[styles.text, {color: '#ffffff'}]}>Aplicacion movil en mi celular.</Text>
       <StatusBar style="auto" />
     </View>
   );
