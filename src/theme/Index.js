@@ -7,7 +7,7 @@ export const colors = {
     colorBorder: '#aadadd',    
 }
 
-export const expacing = {
+export const spacing = {
     xs: 4,
     sm: 8,
     md: 12,
@@ -27,4 +27,4 @@ export const typography = {
     title: {fontSize: 24, fontWeight: '800', color: colors.colorText},
 }
 
-export default {colors, expacing, radius, typography}
+export default {colors, spacing, radius, typography}

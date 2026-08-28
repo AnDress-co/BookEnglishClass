@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 import { Ionicos } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '../theme';
-import { TextInput } from 'react-native/types_generated/index';
+import { NIVELES } from '../data';
+import LevelChip from '../components/LevelChip';
 
 export default function StartScreen({ navigation }) {
     const [ level, setLevel ] = useState('Todos');
@@ -31,11 +31,26 @@ export default function StartScreen({ navigation }) {
                             name="close-circle" 
                             size={18} 
                             color={colors.colorText} 
-                            onPress={() => setBusqueda('')} 
+                            onPress={() => setSearching('')} 
                         /> 
                     )
                 }
             </View>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={{ flexGrow: 0 }}
+            >
+                {
+                    NIVELES.map((item) => (
+                        <LevelChip
+                            label={item}
+                            active={item}
+                            onPress={() => setLevel(item)}
+                        />
+                    ))
+                }
+            </ScrollView>
         </view>
     );
 }
