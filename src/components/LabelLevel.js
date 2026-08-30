@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing } from '../theme';
+import { colors, spacing } from '../theme/Index';
 
 export default function LabelLevel({ level }) {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
-import { colors, spacing, radius } from '../theme';
+import { colors, spacing, radius } from '../theme/Index';
 
 export default function LevelChip({ active, onPress, label }) {
     return (
@@ -22,15 +22,15 @@ const style = StyleSheet.create({
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.full,
-    backgroundColor: colors.superficie,
+    backgroundColor: colors.colorSurface,
     borderWidth: 1,
-    borderColor: colors.borde,
+    borderColor: colors.colorBorder,
     marginRight: spacing.sm,
   },
   chipActivo: {
-    backgroundColor: colors.primario,
-    borderColor: colors.primario,
+    backgroundColor: colors.colorPrimary,
+    borderColor: colors.colorPrimary,
   },
-  texto: { fontSize: 13, fontWeight: '600', color: colors.textoSuave },
+  texto: { fontSize: 13, fontWeight: '600', color: colors.colorSoftText },
   textoActivo: { color: '#FFFFFF' },
 });

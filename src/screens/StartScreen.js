@@ -1,19 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { View, Text, ScrollView, TextInput } from 'react-native';
-import { Ionicos } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { NIVELES } from '../data';
+import { NIVELES } from '../data/Clases';
 import LevelChip from '../components/LevelChip';
+import { colors } from '../theme/Index';    
 
 export default function StartScreen({ navigation }) {
     const [ level, setLevel ] = useState('Todos');
-    const [searching, setSearching] = useState();
+    const [searching, setSearching] = useState('');
 
     return (
-        <view>
+        <View style={{ flex: 1, paddingTop: useSafeAreaInsets().top, paddingHorizontal: 16 }}>
             <Text>Aplicacion de reservas para clases de ingles</Text>
             <View>
-                <Ionicos 
+                <Ionicons 
                     name="search-circle" 
                     size={18} 
                     color={colors.colorText} 
@@ -27,7 +28,7 @@ export default function StartScreen({ navigation }) {
                 />
                 {
                     searching.length > 0 && ( 
-                        <Ionicos 
+                        <Ionicons 
                             name="close-circle" 
                             size={18} 
                             color={colors.colorText} 
@@ -44,6 +45,7 @@ export default function StartScreen({ navigation }) {
                 {
                     NIVELES.map((item) => (
                         <LevelChip
+                            key={item}
                             label={item}
                             active={item}
                             onPress={() => setLevel(item)}
@@ -51,6 +53,6 @@ export default function StartScreen({ navigation }) {
                     ))
                 }
             </ScrollView>
-        </view>
+        </View>
     );
 }
