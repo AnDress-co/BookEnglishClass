@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Pressable, StyleSheet } from 'react-native';
-import { colors, spacing, radius } from '../theme/Index';
+import { colors, spacing, radius } from '../theme/index';
 
 export default function LevelChip({ active, onPress, label }) {
     return (

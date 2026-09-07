@@ -26,7 +26,7 @@ export const radius = {
 }
 
 export const typography = {
-    title: {fontSize: 24, fontWeight: '800', color: colors.colorText},
+    title: {fontSize: 18, fontWeight: '800', color: colors.colorText},
 }
 
 export default {colors, spacing, radius, typography}

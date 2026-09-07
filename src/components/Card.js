@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
-import { typography, colors } from '../theme/Index';
+import { typography, colors } from '../theme/index';
 import LabelLevel from './LabelLevel';
 import { formatearPrecio } from '../data';
 
