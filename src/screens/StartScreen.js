@@ -1,23 +1,39 @@
-import React, {useState, useEffect} from 'react';
-import { View, Text, ScrollView, TextInput, StyleSheet } from 'react-native';
+import React, {useState, useEffect, useMemo} from 'react';
+import { View, Text, ScrollView, TextInput, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { NIVELES } from '../data/Clases';
+import { NIVELES, CLASES } from '../data/Clases';
 import LevelChip from '../components/LevelChip';
 import { colors, typography, spacing, radius } from '../theme/index';
+import Card from '../components/Card';
 
 export default function StartScreen({ navigation }) {
     const insets = useSafeAreaInsets();
     const [ level, setLevel ] = useState('Todos');
     const [searching, setSearching] = useState('');
+    const results = useMemo(() => {
+        const textSearch = searching.trim().toLowerCase();
+        return CLASES.filter((clase) => {
+            const levelMatch = level === 'Todos' || clase.nivel === level;
+            const textMatch = textSearch ||
+                textSearch === '' ||
+                clase.profesor.nombre.toLowerCase().includes(textSearch) ||                
+                clase.titulo.toLowerCase().includes(textSearch) ||
+                clase.descripcion.toLowerCase().includes(textSearch) ||
+                clase.profesor.apellido.toLowerCase().includes(textSearch);
+                return levelMatch && textMatch;
+        });
+    }, [searching, level]);
 
     return (
         <View style={[style.pantalla, { paddingTop: insets.top + spacing.md }]}>
-            <Text style={typography.title}>Aplicacion para clases de Ingles</Text>
-            <View>
+            <Text style={[typography.title, { marginBottom: spacing.md, marginTop: spacing.md, textAlign: 'center'}]}>
+                Aplicacion para clases de Ingles
+            </Text>
+            <View style={style.buscador}>
                 <Ionicons 
                     name="search-circle" 
-                    size={18} 
+                    size={20} 
                     color={colors.colorText} 
                 />
                 <TextInput 
@@ -31,7 +47,7 @@ export default function StartScreen({ navigation }) {
                     searching.length > 0 && ( 
                         <Ionicons 
                             name="close-circle" 
-                            size={18} 
+                            size={20} 
                             color={colors.colorText} 
                             onPress={() => setSearching('')} 
                         /> 
@@ -54,6 +70,21 @@ export default function StartScreen({ navigation }) {
                     ))
                 }
             </ScrollView>
+
+            <FlatList
+                data={results}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <Card 
+                        dataClass={item}
+                        onPress={() => navigation.navigate('DetailClass', { dataClass: item })}
+                    />
+                )}
+                contentContainerStyle={{
+                    paddingLadscape: 12,
+                    flexGrow: 1
+                }}
+            />
         </View>
     );
 }
@@ -67,9 +98,11 @@ const style = StyleSheet.create({
     backgroundColor: colors.colorSurface,
     borderRadius: radius.md,
     paddingHorizontal: spacing.lg,
-    height: 46,
+    height: 40,
     marginTop: spacing.lg,
-    borderWidth: 1,
+    marginBottom: spacing.lg,
+    marginHorizontal: spacing.lg,
+    borderWidth: 0.5,
     borderColor: colors.colorBorder,
   },
   input: { flex: 1, fontSize: 14, color: colors.colorText, paddingVertical: 0 },

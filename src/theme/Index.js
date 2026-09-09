@@ -7,6 +7,7 @@ export const colors = {
     colorText: '#172033',
     colorSoftText: '#64748B',
     colorBorder: '#001c44',
+    colorTitle: '#5076a7',    
 };
 
 export const spacing = {
@@ -26,7 +27,7 @@ export const radius = {
 }
 
 export const typography = {
-    title: {fontSize: 18, fontWeight: '800', color: colors.colorText},
+    title: {fontSize: 18, fontWeight: '800', color: colors.colorTitle},
 }
 
 export default {colors, spacing, radius, typography}

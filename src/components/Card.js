@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { typography, colors } from '../theme/index';
 import LabelLevel from './LabelLevel';
-import { formatearPrecio } from '../data';
+import { formatearPrecio } from '../data/Clases';
 
 export default function Card({ dataClass, onPress }) {
     return (

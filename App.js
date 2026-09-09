@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ClassesStack from './src/navigation/ClassesStack';
 import { DefaultTheme } from '@react-navigation/native';
-import { colors } from './src/theme/Index';
+import { colors } from './src/theme/index';
 
 
 const temaNavegacion = {
