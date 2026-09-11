@@ -6,9 +6,12 @@ import { NIVELES, CLASES } from '../data/Clases';
 import LevelChip from '../components/LevelChip';
 import { colors, typography, spacing, radius } from '../theme/index';
 import Card from '../components/Card';
+import EmptyState from '../components/EmptyState';
+import useResponsive from '../hooks/useResponsive';
 
 export default function StartScreen({ navigation }) {
     const insets = useSafeAreaInsets();
+    const { colums, paddingLadscape } = useResponsive()
     const [ level, setLevel ] = useState('Todos');
     const [searching, setSearching] = useState('');
     const results = useMemo(() => {
@@ -81,9 +84,21 @@ export default function StartScreen({ navigation }) {
                     />
                 )}
                 contentContainerStyle={{
-                    paddingLadscape: 12,
+                    paddingLadscape,
                     flexGrow: 1
                 }}
+                numColumns={colums}
+                ListEmptyComponent={() => (
+                    <EmptyState
+                        icon="search-circle-outline"
+                        tittle="No se encontraron resultados"
+                        message="Intenta con otra busqueda o nivel"
+                        onAction={() => {
+                            setLevel('Todos');
+                            setSearching('');
+                        }}
+                    />
+                )}
             />
         </View>
     );
