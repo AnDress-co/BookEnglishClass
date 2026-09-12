@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing } from '../theme/index';
+import { colors, spacing, typography } from '../theme/index';
 
 export default function LabelLevel({ level }) {
     return (
-        <View style={[styles.container, { backgroundColor: colors.colorBackground}]}>
-            <Text style={styles.text}> {level} </Text>
+        <View style={styles.container}>
+            <Text style={[typography.subTitle, { textAlign: 'right' }]}> {level} </Text>
         </View>
     );
 }
@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
         alignSelf: 'auto',
         paddingVertical: spacing.xs,
         paddingHorizontal: spacing.sm,
-        borderWidth: 1
-    },
-    text: {fontSize: 11, fontWeight: '700', color: colors.colorText, letterSpacing: 0.3}    
+        backgroundColor: colors.colorBackground,
+        borderColor: colors.colorBorder,
+        borderRadius: 6,
+        marginBottom: spacing.sm
+    }
 });

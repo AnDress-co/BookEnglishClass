@@ -2,12 +2,13 @@ import { Platform } from 'react-native';
 
 export const colors = {
     colorBackground: '#d2d8e2',
-    colorSurface: '#FFFFFF',
+    colorSurface: '#ffffff',
     colorPrimary: '#258beb',
-    colorText: '#172033',
-    colorSoftText: '#64748B',
+    colorSecondary: '#78aeda',
+    colorText: '#19253f',
+    colorSoftText: '#304a6e',
     colorBorder: '#001c44',
-    colorTitle: '#5076a7',    
+    colorTitle: '#000000',
 };
 
 export const spacing = {
@@ -27,7 +28,10 @@ export const radius = {
 }
 
 export const typography = {
-    title: {fontSize: 18, fontWeight: '800', color: colors.colorTitle},
+    title: { fontSize: 20, fontWeight: '800', color: colors.colorTitle },
+    subTitle: { fontSize: 18, fontWeight: '700', color: colors.colorText },
+    subTitleTwo: { fontSize: 15, fontWeight: '600', color: colors.colorText },
+    body: { fontSize: 14, fontWeight: '400', color: colors.colorText },
 }
 
-export default {colors, spacing, radius, typography}
+export default { colors, spacing, radius, typography }

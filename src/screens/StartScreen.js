@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, ScrollView, TextInput, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,7 +12,7 @@ import useResponsive from '../hooks/useResponsive';
 export default function StartScreen({ navigation }) {
     const insets = useSafeAreaInsets();
     const { colums, paddingLadscape } = useResponsive()
-    const [ level, setLevel ] = useState('Todos');
+    const [level, setLevel] = useState('Todos');
     const [searching, setSearching] = useState('');
     const results = useMemo(() => {
         const textSearch = searching.trim().toLowerCase();
@@ -20,47 +20,48 @@ export default function StartScreen({ navigation }) {
             const levelMatch = level === 'Todos' || clase.nivel === level;
             const textMatch = textSearch ||
                 textSearch === '' ||
-                clase.profesor.nombre.toLowerCase().includes(textSearch) ||                
+                clase.profesor.nombre.toLowerCase().includes(textSearch) ||
                 clase.titulo.toLowerCase().includes(textSearch) ||
                 clase.descripcion.toLowerCase().includes(textSearch) ||
                 clase.profesor.apellido.toLowerCase().includes(textSearch);
-                return levelMatch && textMatch;
+            return levelMatch && textMatch;
         });
     }, [searching, level]);
 
     return (
         <View style={[style.pantalla, { paddingTop: insets.top + spacing.md }]}>
-            <Text style={[typography.title, { marginBottom: spacing.md, marginTop: spacing.md, textAlign: 'center'}]}>
-                Aplicacion para clases de Ingles
+            <Text style={[typography.title, { marginBottom: spacing.md, marginTop: spacing.md, textAlign: 'center' }]}>
+                English classes
             </Text>
             <View style={style.buscador}>
-                <Ionicons 
-                    name="search-circle" 
-                    size={20} 
-                    color={colors.colorText} 
+                <Ionicons
+                    name="search-circle"
+                    size={20}
+                    color={colors.colorText}
                 />
-                <TextInput 
-                    value={searching} 
-                    onChangeText={setSearching} 
-                    placeholder="Buscar clases..." 
+                <TextInput
+                    value={searching}
+                    onChangeText={setSearching}
+                    placeholder="Buscar clases..."
                     autoComplete={false}
                     autoCorrect={false}
                 />
                 {
-                    searching.length > 0 && ( 
-                        <Ionicons 
-                            name="close-circle" 
-                            size={20} 
-                            color={colors.colorText} 
-                            onPress={() => setSearching('')} 
-                        /> 
+                    searching.length > 0 && (
+                        <Ionicons
+                            name="close-circle"
+                            size={20}
+                            color={colors.colorText}
+                            onPress={() => setSearching('')}
+                        />
                     )
                 }
             </View>
+
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                style={{ flexGrow: 0 }}
+                style={{ flexGrow: 0, paddingBottom: spacing.xxl }}
             >
                 {
                     NIVELES.map((item) => (
@@ -78,7 +79,7 @@ export default function StartScreen({ navigation }) {
                 data={results}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <Card 
+                    <Card
                         dataClass={item}
                         onPress={() => navigation.navigate('DetailClass', { dataClass: item })}
                     />
@@ -105,20 +106,19 @@ export default function StartScreen({ navigation }) {
 }
 
 const style = StyleSheet.create({
-  pantalla: { flex: 1, backgroundColor: colors.colorBackground },
-  buscador: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    backgroundColor: colors.colorSurface,
-    borderRadius: radius.md,
-    paddingHorizontal: spacing.lg,
-    height: 40,
-    marginTop: spacing.lg,
-    marginBottom: spacing.lg,
-    marginHorizontal: spacing.lg,
-    borderWidth: 0.5,
-    borderColor: colors.colorBorder,
-  },
-  input: { flex: 1, fontSize: 14, color: colors.colorText, paddingVertical: 0 },
+    pantalla: { flex: 1, backgroundColor: colors.colorBackground },
+    buscador: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+        backgroundColor: colors.colorSurface,
+        borderRadius: radius.md,
+        paddingHorizontal: spacing.lg,
+        height: 40,
+        marginTop: spacing.lg,
+        marginBottom: spacing.lg,
+        marginHorizontal: spacing.lg,
+        borderColor: colors.colorBorder,
+    },
+    input: { flex: 1, fontSize: 14, color: colors.colorText, paddingVertical: 0 },
 });

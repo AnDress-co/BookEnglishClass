@@ -4,12 +4,12 @@ import { colors, spacing, radius } from '../theme/index';
 
 export default function LevelChip({ active, onPress, label }) {
     return (
-        <Pressable 
+        <Pressable
             style={(pressed) => [
                 style.chip,
                 active && style.chipActivo,
                 pressed && { opacity: 0.7 }
-            ]} 
+            ]}
             onPress={onPress}
         >
             <Text style={[style.texto, active && style.textoActivo]}>{label}</Text>
@@ -18,19 +18,20 @@ export default function LevelChip({ active, onPress, label }) {
 }
 
 const style = StyleSheet.create({
-  chip: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: radius.full,
-    backgroundColor: colors.colorSurface,
-    borderWidth: 1,
-    borderColor: colors.colorBorder,
-    marginRight: spacing.sm,
-  },
-  chipActivo: {
-    backgroundColor: colors.colorPrimary,
-    borderColor: colors.colorPrimary,
-  },
-  texto: { fontSize: 13, fontWeight: '600', color: colors.colorSoftText },
-  textoActivo: { color: '#FFFFFF' },
+    chip: {
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.lg,
+        borderRadius: radius.full,
+        backgroundColor: colors.colorSurface,
+        borderWidth: 1,
+        borderColor: colors.colorBorder,
+        marginRight: spacing.sm,
+        height: 32
+    },
+    chipActivo: {
+        backgroundColor: colors.colorPrimary,
+        borderColor: colors.colorPrimary,
+    },
+    texto: { fontSize: 14, fontWeight: '600', color: colors.colorSoftText },
+    textoActivo: { color: '#ffffff', fontWeight: '600', fontSize: 15 },
 });
