@@ -8,6 +8,29 @@ import { formatearPrecio } from '../data/Clases';
 export default function DetailClassScreen({ route, navigation }) {
     const insets = useSafeAreaInsets();
     const { dataClass } = route.params;
+    const [ places, setPlaces ] = useState(dataClass.cupos);
+
+    const deductPlace = () => {
+        if (places > 0) {
+            setPlaces(places - 1);
+            Alert.alert("Reserva exitosa", "Has reservado un cupo para esta clase.");
+        } else {
+            Alert.alert("No hay cupos disponibles", "Lo sentimos, no hay cupos disponibles para esta clase.");
+        }
+        
+    };
+
+    const viewAlert = () => {
+        Alert.alert(
+            "Confirmación",
+            "¿Estás seguro de continuar?",
+            [
+                { text: "No", onPress: () => Alert.alert("Reserva cancelada", "No se ha reservado ningún cupo.") },
+                { text: "Sí", onPress: () => deductPlace() }
+            ],
+            { cancelable: false }
+        );  
+    };
 
     return (
         <View style={[styles.pantalla, { paddingTop: insets.top + spacing.xs }]}>
@@ -25,19 +48,19 @@ export default function DetailClassScreen({ route, navigation }) {
                             fontWeight: '700',
                             color: colors.colorPrimary
                         }}
-                        >                            
+                        >
                             {dataClass.titulo}
                         </Text>
                         <Text style={{
-                            textAlign: 'center', 
-                            fontSize: 16, 
+                            textAlign: 'center',
+                            fontSize: 16,
                             marginBottom: spacing.md
                         }}
                         >
                             {dataClass.descripcion}
-                        </Text>                        
+                        </Text>
                         <Text style={styles.datoValor}>
-                            <Ionicons 
+                            <Ionicons
                                 name="book-outline"
                                 size={20}
                                 color={colors.colorPrimary}
@@ -45,15 +68,15 @@ export default function DetailClassScreen({ route, navigation }) {
                             °Nivel: {dataClass.nivel}
                         </Text>
                         <Text style={styles.datoValor}>
-                            <Ionicons 
+                            <Ionicons
                                 name="people-outline"
                                 size={20}
                                 color={colors.colorPrimary}
                             />
-                            °Cupos: {dataClass.cupos}
+                            °Cupos: {places}
                         </Text>
                         <Text style={styles.datoValor}>
-                            <Ionicons 
+                            <Ionicons
                                 name="timer-outline"
                                 size={20}
                                 color={colors.colorPrimary}
@@ -61,7 +84,7 @@ export default function DetailClassScreen({ route, navigation }) {
                             °Duración: {dataClass.duracion}
                         </Text>
                         <Text style={styles.datoValor}>
-                            <Ionicons 
+                            <Ionicons
                                 name="calendar-outline"
                                 size={20}
                                 color={colors.colorPrimary}
@@ -88,14 +111,11 @@ export default function DetailClassScreen({ route, navigation }) {
                             borderRadius: radius.lg,
                             alignItems: 'center'
                         }}
-                        onPress={() => { Alert.alert('Reservar clase') }}
+                        onPress={() => { viewAlert(); }}
                     >
                         <Text style={{ color: 'white', fontSize: 16 }}>Reservar clase</Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.barra}>
-                    <Text style={{ paddingHorizontal: spacing.xxl }}>Informacion de la clase.</Text>
-                </View>
+                </View>               
             </ScrollView>
         </View>
     );
