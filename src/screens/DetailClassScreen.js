@@ -1,14 +1,15 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, Image, TouchableOpacity, Button } from 'react-native';
 import { colors, spacing, typography, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { formatearPrecio } from '../data/Clases';
+import LabelLevel, { LabelLebel } from '../components/LabelLevel'
 
 export default function DetailClassScreen({ route, navigation }) {
     const insets = useSafeAreaInsets();
     const { dataClass } = route.params;
-    const [ places, setPlaces ] = useState(dataClass.cupos);
+    const [places, setPlaces] = useState(dataClass.cupos);
 
     const deductPlace = () => {
         if (places > 0) {
@@ -17,7 +18,7 @@ export default function DetailClassScreen({ route, navigation }) {
         } else {
             Alert.alert("No hay cupos disponibles", "Lo sentimos, no hay cupos disponibles para esta clase.");
         }
-        
+
     };
 
     const viewAlert = () => {
@@ -29,7 +30,7 @@ export default function DetailClassScreen({ route, navigation }) {
                 { text: "Sí", onPress: () => deductPlace() }
             ],
             { cancelable: false }
-        );  
+        );
     };
 
     return (
@@ -44,38 +45,45 @@ export default function DetailClassScreen({ route, navigation }) {
                         <Text style={styles.title}>{dataClass.titulo}</Text>
                         <Text style={styles.descripcion}>{dataClass.descripcion}</Text>
                         <View style={styles.details}>
-                        <Text style={styles.datoValor}>
-                            <Ionicons
-                                name="book-outline"
-                                size={18}
-                                color={colors.colorPrimary}
-                            />
-                            {'  '}Nivel: {dataClass.nivel}
-                        </Text>
-                        <Text style={styles.datoValor}>
-                            <Ionicons
-                                name="people-outline"
-                                size={18}
-                                color={colors.colorPrimary}
-                            />
-                            {'  '}Cupos: {places}
-                        </Text>
-                        <Text style={styles.datoValor}>
-                            <Ionicons
-                                name="timer-outline"
-                                size={18}
-                                color={colors.colorPrimary}
-                            />
-                            {'  '}Duración: {dataClass.duracion}
-                        </Text>
-                        <Text style={styles.datoValor}>
-                            <Ionicons
-                                name="calendar-outline"
-                                size={18}
-                                color={colors.colorPrimary}
-                            />
-                            {'  '}Horario: {dataClass.horarios}
-                        </Text>
+                            <Text style={styles.datoValor}>
+                                <Ionicons
+                                    name="book-outline"
+                                    size={18}
+                                    color={colors.colorPrimary}
+                                />
+                                {'  '}Nivel: {dataClass.nivel}
+                            </Text>
+                            <Text style={styles.datoValor}>
+                                <Ionicons
+                                    name="people-outline"
+                                    size={18}
+                                    color={colors.colorPrimary}
+                                />
+                                {'  '}Cupos: {places}
+                            </Text>
+                            <Text style={styles.datoValor}>
+                                <Ionicons
+                                    name="timer-outline"
+                                    size={18}
+                                    color={colors.colorPrimary}
+                                />
+                                {'  '}Duración: {dataClass.duracion} Horas
+                            </Text>
+                            <View>
+                                <Text style={[styles.datoValor, {marginBottom: spacing.md}]}>
+                                    <Ionicons
+                                        name="calendar-outline"
+                                        size={18}
+                                        color={colors.colorPrimary}
+                                    />
+                                    {'  '}Horarios:                                    
+                                </Text>
+                                {
+                                    dataClass.horarios.map((item) => (                                        
+                                        <LabelLevel key={item} level={item}/>
+                                    ))
+                                }
+                            </View>
                         </View>
                         <Text style={styles.precio}>{formatearPrecio(dataClass.precio)}</Text>
                     </View>
@@ -95,7 +103,7 @@ export default function DetailClassScreen({ route, navigation }) {
                     >
                         <Text style={styles.reserveButtonText}>Reservar clase</Text>
                     </TouchableOpacity>
-                </View>               
+                </View>
             </ScrollView>
         </View>
     );
@@ -144,5 +152,5 @@ const styles = StyleSheet.create({
         borderRadius: radius.sm,
         alignItems: 'center',
     },
-    reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' },
+    reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' },   
 });

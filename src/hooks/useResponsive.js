@@ -9,7 +9,7 @@ export default function useResponsive() {
         height,
         isLandscape,
         isTablet,
-        columns: isTablet ? 2 : 1,
+        colums: isTablet ? 2 : 1,
         broad: isTablet ? 320 : Math.min(width * 0.72, 300),
         paddingLadscape: isTablet ? 32 : 16
     };

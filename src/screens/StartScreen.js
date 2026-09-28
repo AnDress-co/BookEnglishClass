@@ -18,14 +18,14 @@ export default function StartScreen({ navigation }) {
         const textSearch = searching.trim().toLowerCase();
         return CLASES.filter((clase) => {
             const levelMatch = level === 'Todos' || clase.nivel === level;
-            const textMatch = textSearch ||
-                textSearch === '' ||
+            const textMatch = textSearch === '' ||
                 clase.profesor.nombre.toLowerCase().includes(textSearch) ||
+                clase.profesor.pais.toLowerCase().includes(textSearch) ||
                 clase.titulo.toLowerCase().includes(textSearch) ||
-                clase.descripcion.toLowerCase().includes(textSearch) ||
-                clase.profesor.apellido.toLowerCase().includes(textSearch);
-            return levelMatch && textMatch;
-        });
+                clase.nivel.toLowerCase().includes(textSearch) ||
+                clase.descripcion.toLowerCase().includes(textSearch);
+            return levelMatch && textMatch;            
+        });        
     }, [searching, level]);
 
     return (
@@ -37,7 +37,7 @@ export default function StartScreen({ navigation }) {
                 <Ionicons
                     name="search-circle"
                     size={20}
-                    color={colors.colorText}
+                    color={colors.colorText}                    
                 />
                 <TextInput
                     style={style.input}
