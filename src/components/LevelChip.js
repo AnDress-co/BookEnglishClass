@@ -5,7 +5,7 @@ import { colors, spacing, radius } from '../theme/index';
 export default function LevelChip({ active, onPress, label }) {
     return (
         <Pressable
-            style={(pressed) => [
+            style={({ pressed }) => [
                 style.chip,
                 active && style.chipActivo,
                 pressed && { opacity: 0.7 }
@@ -33,5 +33,5 @@ const style = StyleSheet.create({
         borderColor: colors.colorPrimary,
     },
     texto: { fontSize: 14, fontWeight: '600', color: colors.colorSoftText },
-    textoActivo: { color: '#ffffff', fontWeight: '600', fontSize: 15 },
+    textoActivo: { color: '#ffffff', fontWeight: '600', fontSize: 14 },
 });

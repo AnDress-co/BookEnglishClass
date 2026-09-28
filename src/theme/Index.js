@@ -1,14 +1,15 @@
 import { Platform } from 'react-native';
 
 export const colors = {
-    colorBackground: '#d2d8e2',
+    colorBackground: '#f3f6f2',
     colorSurface: '#ffffff',
-    colorPrimary: '#258beb',
-    colorSecondary: '#78aeda',
-    colorText: '#19253f',
-    colorSoftText: '#304a6e',
-    colorBorder: '#001c44',
-    colorTitle: '#000000',
+    colorPrimary: '#176b5b',
+    colorSecondary: '#e4efe9',
+    colorAccent: '#e87957',
+    colorText: '#1b302b',
+    colorSoftText: '#66756f',
+    colorBorder: '#dce5df',
+    colorTitle: '#172a26',
 };
 
 export const spacing = {
@@ -28,9 +29,9 @@ export const radius = {
 }
 
 export const typography = {
-    title: { fontSize: 20, fontWeight: '800', color: colors.colorTitle },
-    subTitle: { fontSize: 18, fontWeight: '700', color: colors.colorText },
-    subTitleTwo: { fontSize: 15, fontWeight: '600', color: colors.colorText },
+    title: { fontSize: 22, fontWeight: '800', color: colors.colorTitle },
+    subTitle: { fontSize: 17, fontWeight: '700', color: colors.colorText },
+    subTitleTwo: { fontSize: 14, fontWeight: '600', color: colors.colorText },
     body: { fontSize: 14, fontWeight: '400', color: colors.colorText },
 }
 

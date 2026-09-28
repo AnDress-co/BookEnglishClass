@@ -30,7 +30,7 @@ export default function StartScreen({ navigation }) {
 
     return (
         <View style={[style.pantalla, { paddingTop: insets.top + spacing.md }]}>
-            <Text style={[typography.title, { marginBottom: spacing.md, marginTop: spacing.md, textAlign: 'center' }]}>
+            <Text style={[typography.title, style.heading]}>
                 English classes
             </Text>
             <View style={style.buscador}>
@@ -40,6 +40,7 @@ export default function StartScreen({ navigation }) {
                     color={colors.colorText}
                 />
                 <TextInput
+                    style={style.input}
                     value={searching}
                     onChangeText={setSearching}
                     placeholder="Buscar clases..."
@@ -61,14 +62,15 @@ export default function StartScreen({ navigation }) {
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                style={{ flexGrow: 0, paddingBottom: spacing.xxl }}
+                style={style.filters}
+                contentContainerStyle={style.filterContent}
             >
                 {
                     NIVELES.map((item) => (
                         <LevelChip
                             key={item}
                             label={item}
-                            active={item}
+                            active={level === item}
                             onPress={() => setLevel(item)}
                         />
                     ))
@@ -85,7 +87,8 @@ export default function StartScreen({ navigation }) {
                     />
                 )}
                 contentContainerStyle={{
-                    paddingLadscape,
+                    paddingHorizontal: paddingLadscape,
+                    paddingBottom: spacing.xxl,
                     flexGrow: 1
                 }}
                 numColumns={colums}
@@ -107,18 +110,34 @@ export default function StartScreen({ navigation }) {
 
 const style = StyleSheet.create({
     pantalla: { flex: 1, backgroundColor: colors.colorBackground },
+    heading: {
+        marginHorizontal: spacing.xl,
+        marginTop: spacing.md,
+        marginBottom: spacing.sm,
+        textAlign: 'left',
+        fontSize: 27,
+        letterSpacing: 0,
+    },
     buscador: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: spacing.sm,
         backgroundColor: colors.colorSurface,
         borderRadius: radius.md,
         paddingHorizontal: spacing.lg,
-        height: 40,
-        marginTop: spacing.lg,
+        height: 52,
+        marginTop: spacing.sm,
         marginBottom: spacing.lg,
         marginHorizontal: spacing.lg,
+        borderWidth: 1,
         borderColor: colors.colorBorder,
     },
-    input: { flex: 1, fontSize: 14, color: colors.colorText, paddingVertical: 0 },
+    input: {
+        flex: 1,
+        fontSize: 15,
+        color: colors.colorText,
+        paddingVertical: 0,
+        marginLeft: spacing.sm,
+    },
+    filters: { flexGrow: 0, marginBottom: spacing.md, paddingBottom: spacing.lg, paddingTop: spacing.lg },
+    filterContent: { paddingHorizontal: spacing.lg, alignItems: 'center' },
 });

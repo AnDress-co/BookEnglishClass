@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, useMemo, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BOOKING_STORAGE_KEY = '@booking_mg20';
+const BOOKING_STORAGE_KEY = '@booking_mg24';
 
-export const BookingContext = createContext();
+export const BookingContext = createContext(null);
 
 export function BookingProvider({ children }) {
     const [booking, setBooking] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, Image, TouchableOpacity } from 'react-native';
-import { colors, spacing, typography, radius, shadow } from '../theme/index';
+import { colors, spacing, typography, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { formatearPrecio } from '../data/Clases';
@@ -35,85 +35,65 @@ export default function DetailClassScreen({ route, navigation }) {
     return (
         <View style={[styles.pantalla, { paddingTop: insets.top + spacing.xs }]}>
             <ScrollView
-                shadowVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 120 }}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContent}
             >
                 <View style={styles.datos}>
                     <Image source={{ uri: dataClass.imagen }} resizeMode="cover" style={styles.portada} />
-                    <Text></Text>
-                    <View style={{ paddingHorizontal: spacing.md, gap: spacing.sm }}>
-                        <Text style={{
-                            textAlign: 'center',
-                            fontSize: 20,
-                            fontWeight: '700',
-                            color: colors.colorPrimary
-                        }}
-                        >
-                            {dataClass.titulo}
-                        </Text>
-                        <Text style={{
-                            textAlign: 'center',
-                            fontSize: 16,
-                            marginBottom: spacing.md
-                        }}
-                        >
-                            {dataClass.descripcion}
-                        </Text>
+                    <View style={styles.classInfo}>
+                        <Text style={styles.title}>{dataClass.titulo}</Text>
+                        <Text style={styles.descripcion}>{dataClass.descripcion}</Text>
+                        <View style={styles.details}>
                         <Text style={styles.datoValor}>
                             <Ionicons
                                 name="book-outline"
-                                size={20}
+                                size={18}
                                 color={colors.colorPrimary}
                             />
-                            °Nivel: {dataClass.nivel}
+                            {'  '}Nivel: {dataClass.nivel}
                         </Text>
                         <Text style={styles.datoValor}>
                             <Ionicons
                                 name="people-outline"
-                                size={20}
+                                size={18}
                                 color={colors.colorPrimary}
                             />
-                            °Cupos: {places}
+                            {'  '}Cupos: {places}
                         </Text>
                         <Text style={styles.datoValor}>
                             <Ionicons
                                 name="timer-outline"
-                                size={20}
+                                size={18}
                                 color={colors.colorPrimary}
                             />
-                            °Duración: {dataClass.duracion}
+                            {'  '}Duración: {dataClass.duracion}
                         </Text>
                         <Text style={styles.datoValor}>
                             <Ionicons
                                 name="calendar-outline"
-                                size={20}
+                                size={18}
                                 color={colors.colorPrimary}
                             />
-                            °Horario: {dataClass.horarios}
+                            {'  '}Horario: {dataClass.horarios}
                         </Text>
-                        <Text style={styles.precio}>Precio: {formatearPrecio(dataClass.precio)}</Text>
+                        </View>
+                        <Text style={styles.precio}>{formatearPrecio(dataClass.precio)}</Text>
                     </View>
                 </View>
                 <View style={styles.profesor}>
                     <Image source={{ uri: dataClass.profesor.foto }} resizeMode="cover" style={styles.avatar} />
                     <View style={{ flex: 1 }}>
-                        <Text style={{ fontSize: 20, fontWeight: '700', color: colors.colorPrimary }}>Datos del docente:</Text>
+                        <Text style={styles.profesorTitulo}>Tu docente</Text>
                         <Text style={styles.profesorDato}>{dataClass.profesor.nombre}</Text>
-                        <Text style={styles.profesorDato}>{dataClass.profesor.pais}</Text>
+                        <Text style={styles.profesorPais}>{dataClass.profesor.pais}</Text>
                     </View>
                 </View>
-                <View style={{ marginTop: spacing.md, alignItems: 'center' }}>
+                <View style={styles.actionContainer}>
                     <TouchableOpacity
-                        style={{
-                            backgroundColor: colors.colorPrimary,
-                            paddingVertical: spacing.md,
-                            width: 200,
-                            borderRadius: radius.lg,
-                            alignItems: 'center'
-                        }}
+                        style={styles.reserveButton}
                         onPress={() => { viewAlert(); }}
                     >
-                        <Text style={{ color: 'white', fontSize: 16 }}>Reservar clase</Text>
+                        <Text style={styles.reserveButtonText}>Reservar clase</Text>
                     </TouchableOpacity>
                 </View>               
             </ScrollView>
@@ -123,41 +103,46 @@ export default function DetailClassScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
     pantalla: { flex: 1, backgroundColor: colors.colorBackground },
+    scrollContent: { paddingBottom: spacing.xxl },
     portada: {
         width: '100%',
-        height: 250,
-        padding: spacing.sm,
-        borderRadius: radius.lg
+        height: 238,
     },
     datos: {
         backgroundColor: colors.colorSurface,
-        borderRadius: radius.lg,
-        paddingVertical: spacing.sm,
-        margin: spacing.sm,
+        borderRadius: radius.sm,
+        overflow: 'hidden',
+        margin: spacing.lg,
+        borderWidth: 1,
+        borderColor: colors.colorBorder,
     },
-    datoValor: { fontSize: 15, fontWeight: '500', color: colors.texto },
-    precio: { fontSize: 18, fontWeight: '700', color: colors.colorPrimary },
+    classInfo: { padding: spacing.lg },
+    title: { fontSize: 23, lineHeight: 29, fontWeight: '800', color: colors.colorText },
+    descripcion: { ...typography.body, color: colors.colorSoftText, lineHeight: 22, marginTop: spacing.sm },
+    details: { gap: spacing.md, marginTop: spacing.lg },
+    datoValor: { fontSize: 14, fontWeight: '600', color: colors.colorText },
+    precio: { fontSize: 20, fontWeight: '800', color: colors.colorPrimary, marginTop: spacing.lg },
     profesor: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: spacing.md,
         backgroundColor: colors.colorSurface,
-        borderRadius: radius.lg,
+        borderRadius: radius.sm,
         padding: spacing.lg,
-        margin: spacing.sm,
+        marginHorizontal: spacing.lg,
+        borderWidth: 1,
+        borderColor: colors.colorBorder,
     },
-    avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.colorBorder },
-    profesorDato: { fontSize: 15, fontWeight: '500', color: colors.colorText },
-    descripcion: { ...typography.cuerpo, color: colors.colorSoftText, lineHeight: 22, marginTop: spacing.sm },
-    barra: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: colors.colorSurface,
+    avatar: { width: 58, height: 58, borderRadius: 29, backgroundColor: colors.colorSecondary },
+    profesorTitulo: { fontSize: 12, fontWeight: '700', color: colors.colorSoftText, marginBottom: spacing.xs },
+    profesorDato: { fontSize: 16, fontWeight: '700', color: colors.colorText },
+    profesorPais: { fontSize: 13, color: colors.colorSoftText, marginTop: spacing.xs },
+    actionContainer: { marginTop: spacing.lg, marginHorizontal: spacing.lg },
+    reserveButton: {
+        backgroundColor: colors.colorPrimary,
         paddingVertical: spacing.lg,
-        paddingTop: spacing.lg
-    }
+        borderRadius: radius.sm,
+        alignItems: 'center',
+    },
+    reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' },
 });
