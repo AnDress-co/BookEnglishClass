@@ -4,12 +4,13 @@ import { colors, spacing, typography, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { formatearPrecio } from '../data/Clases';
-import LabelLevel, { LabelLebel } from '../components/LabelLevel'
+import LabelLevel from '../components/LabelLevel'
 
 export default function DetailClassScreen({ route, navigation }) {
     const insets = useSafeAreaInsets();
     const { dataClass } = route.params;
     const [places, setPlaces] = useState(dataClass.cupos);
+    const [schedule, setSchedule] = useState([dataClass.horarios[0]]);    
 
     const deductPlace = () => {
         if (places > 0) {
@@ -20,18 +21,18 @@ export default function DetailClassScreen({ route, navigation }) {
         }
 
     };
-
-    const viewAlert = () => {
+    
+    const handleReserve = () => {
         Alert.alert(
             "Confirmación",
-            "¿Estás seguro de continuar?",
+            "¿Reservar esta clase en el horario seleccionado: " + schedule + "?",
             [
-                { text: "No", onPress: () => Alert.alert("Reserva cancelada", "No se ha reservado ningún cupo.") },
+                { text: "No", onPress: () => Alert.alert("Operacion cancelada", "No se ha reservado ningún cupo.") },
                 { text: "Sí", onPress: () => deductPlace() }
             ],
             { cancelable: false }
         );
-    };
+    };     
 
     return (
         <View style={[styles.pantalla, { paddingTop: insets.top + spacing.xs }]}>
@@ -75,12 +76,14 @@ export default function DetailClassScreen({ route, navigation }) {
                                         name="calendar-outline"
                                         size={18}
                                         color={colors.colorPrimary}
-                                    />
-                                    {'  '}Horarios:                                    
+                                    />                                    
+                                    {'  '}Selecciona un horario para tu clase:
                                 </Text>
                                 {
-                                    dataClass.horarios.map((item) => (                                        
-                                        <LabelLevel key={item} level={item}/>
+                                    dataClass.horarios.map((item) => (
+                                        <TouchableOpacity key={item} onPress={() => setSchedule(item)} style={[schedule == item && styles.shedulSelect]} >
+                                            <LabelLevel key={item} level={item}/>
+                                        </TouchableOpacity>                                            
                                     ))
                                 }
                             </View>
@@ -99,7 +102,7 @@ export default function DetailClassScreen({ route, navigation }) {
                 <View style={styles.actionContainer}>
                     <TouchableOpacity
                         style={styles.reserveButton}
-                        onPress={() => { viewAlert(); }}
+                        onPress={() => { handleReserve(); }}
                     >
                         <Text style={styles.reserveButtonText}>Reservar clase</Text>
                     </TouchableOpacity>
@@ -152,5 +155,11 @@ const styles = StyleSheet.create({
         borderRadius: radius.sm,
         alignItems: 'center',
     },
-    reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' },   
+    reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' }, 
+    shedulSelect: {
+        width: 100,        
+        backgroundColor: colors.colorPrimary,        
+        marginBottom: spacing.sm,
+        borderRadius: radius.sm,
+    },
 });

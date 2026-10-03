@@ -14,6 +14,7 @@ export default function StartScreen({ navigation }) {
     const { colums, paddingLadscape } = useResponsive()
     const [level, setLevel] = useState('Todos');
     const [searching, setSearching] = useState('');
+    
     const results = useMemo(() => {
         const textSearch = searching.trim().toLowerCase();
         return CLASES.filter((clase) => {

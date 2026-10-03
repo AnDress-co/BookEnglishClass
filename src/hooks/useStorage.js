@@ -8,7 +8,7 @@ export default function useStorage(key, initialValue) {
     useEffect(() => {
         let active = true; //Bandera para saber si estoy guardando o montando el componente.
 
-        AsyncStorege.getItem(key)
+        AsyncStorage.getItem(key)
         .then((saving) => {
             if(active && saving !== null) {
                 setValue(JSON.parse(saving));
@@ -28,7 +28,7 @@ export default function useStorage(key, initialValue) {
             try{
                 await AsyncStorage.setItem(key, JSON.stringify(newValue));
             }catch(error){
-                console.log('Error guardand: ' + key, error);
+                console.log('Error guardando: ' + key, error);
             }
         }, [key]
     );
