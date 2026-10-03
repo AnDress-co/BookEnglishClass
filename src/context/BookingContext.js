@@ -36,7 +36,7 @@ export function BookingProvider({ children }) {
         const newBooking = {
             id: clase.id + '-' + schedule,
             titulo: clase.title,
-            profesor: clase.profesor.nombre + ' ' + clase.profesor.apellido,
+            profesor: clase.profesor.nombre,
             precio: clase.precio,
             schedule,
             creadoEn: new Date().toISOString

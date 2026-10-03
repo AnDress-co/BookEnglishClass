@@ -1,7 +1,7 @@
 import react from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import StartScreen from '../screens/StartScreen';
 import DetailClassScreen from '../screens/DetailClassScreen';
+import TabNavigation from './TabNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -9,8 +9,8 @@ export default function ClassesStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Home"
-                component={StartScreen}
+                name="Main"
+                component={TabNavigation}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
