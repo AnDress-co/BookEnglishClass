@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     reserveButtonText: { color: colors.colorSurface, fontSize: 16, fontWeight: '700' }, 
     shedulSelect: {
         width: 100,        
-        backgroundColor: colors.colorPrimary,        
+        backgroundColor: colors.colorPrimary,
         marginBottom: spacing.sm,
         borderRadius: radius.sm,
     },
