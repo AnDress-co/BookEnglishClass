@@ -140,4 +140,4 @@ const style = StyleSheet.create({
     },
     filters: { flexGrow: 0, marginBottom: spacing.md, paddingBottom: spacing.lg, paddingTop: spacing.lg },
     filterContent: { paddingHorizontal: spacing.lg, alignItems: 'center' },
-});
+}); 
