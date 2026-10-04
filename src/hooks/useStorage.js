@@ -6,7 +6,7 @@ export default function useStorage(key, initialValue) {
     const [ ready, setReady ] = useState(false);
 
     useEffect(() => {
-        let active = true; //Bandera para saber si estoy guardando o montando el componente.
+        let active = true; //Indica si el componente sigue activo para evitar actualizar el estado después de desmontarse.
 
         AsyncStorage.getItem(key)
         .then((saving) => {
@@ -14,7 +14,7 @@ export default function useStorage(key, initialValue) {
                 setValue(JSON.parse(saving));
             }
         })
-        .catch((error) => console.log('Error reading from storage: ' + key, error))
+        .catch((error) => console.log('Error leyendo el storage: ' + key, error))
         .finally(() => active && setReady(true));
 
         return() => {
@@ -24,12 +24,26 @@ export default function useStorage(key, initialValue) {
 
     const update = useCallback(
         async (newValue) => {
-            setValue(newValue);
-            try{
-                await AsyncStorage.setItem(key, JSON.stringify(newValue));
-            }catch(error){
-                console.log('Error guardando: ' + key, error);
+
+            if(!ready) return false;
+
+            const nextValue = typeof newValue === 'function' ? newValue(value) : newValue;            
+
+            try {
+                await AsyncStorage.setItem(key, JSON.stringify(nextValue));
+                setValue(nextValue);
+                return true;
+            }catch(error) {
+                console.log('Error guardando en el storage: ' + key, error);
+                return false;
             }
-        }, [key]
+
+        }, [key, ready, value]
     );
+
+    return { 
+        value, 
+        ready, 
+        update 
+    };
 }

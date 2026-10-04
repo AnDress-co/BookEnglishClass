@@ -1,54 +1,53 @@
-import React, { createContext, useState, useEffect, useMemo, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useMemo, useCallback } from 'react';
+import useStorage from '../hooks/useStorage';
 
 const BOOKING_STORAGE_KEY = '@booking_mg24';
 
 export const BookingContext = createContext(null);
 
-export function BookingProvider({ children }) {
-    const [booking, setBooking] = useState([]);
-    const [loading, setLoading] = useState(true);
+export function BookingProvider({ children }) {    
+    const { value: booking, ready, update } = useStorage(BOOKING_STORAGE_KEY, []);
 
-    // Funcion de cargar.
-    useEffect(() => {
-        const load = async () => {
-            try {
-                const saved = await AsyncStorage.getItem(BOOKING_STORAGE_KEY);
-                if(saved != null) {
-                    setBooking(JSON.parse(save));
-                }
-            }catch(error){
-                console.log('Ocurrio un error al cargar la informacion: ', error);
-            }finally{
-                setLoading(false);
-            }
-        }
-        load();
-    }, []);
+    const addBooking = useCallback(async(clase, schedule) => {
 
-    //Guardar cada vez que cambie el arreglo de reservas.
-    useEffect(() => {
-        if(loading) return;
-        AsyncStorage.setItem(BOOKING_STORAGE_KEY, JSON.stringify(booking)).catch((error) => console.log('Error guardando reservas: ', error));
-    }, [booking, loading]);
+        if(!ready) return false;
 
-    const addBooking = useCallback((clase, schedule) => {
         const newBooking = {
             id: clase.id + '-' + schedule,
-            titulo: clase.title,
+            titulo: clase.titulo,
             profesor: clase.profesor.nombre,
             precio: clase.precio,
             schedule,
-            creadoEn: new Date().toISOString
-        }
-        let result = {ok: true}
-        setBooking((prev) => {
+            creadoEn: new Date().toISOString()
+        };                        
+
+        const success = await update((prev) => {
             if(prev.some((r) => r.id === newBooking.id)){
-                result = {ok: false}
                 return prev;
             }
-            return [newBooking, ...prev]
+            return [...prev, newBooking];
         });
-    }, []);
+        
+        return success;
+            
+    }, [ready, update]);
 
-}//Esta llave es la que cierra la funcion de Provider.
+    const removeBooking = useCallback(async(id) => {
+        if(!ready) return false;
+        const success = await update((prev) => prev.filter((r) => r.id !== id));
+        return success;
+    });
+
+    const contextValue = useMemo(() => ({
+        booking,
+        ready,
+        addBooking,
+        removeBooking
+    }), [booking, ready, addBooking, removeBooking]);
+
+    return (
+        <BookingContext.Provider value={contextValue}>
+            {children}
+        </BookingContext.Provider>
+    );
+}
