@@ -34,7 +34,7 @@ export default function TabNavigation() {
                 name="Perfil"
                 component={ProfileScreen}
                 options={{ 
-                    title: 'Perfil de usuario',
+                    title: 'Mi perfil',
                     tabBarIcon: ({ color, size}) => (
                         <Ionicons name="person" color={color} size={size} />
                     ),
