@@ -10,6 +10,7 @@ export const colors = {
     colorSoftText: '#66756f',
     colorBorder: '#dce5df',
     colorTitle: '#172a26',
+    colorError: '#eb3b06',
 };
 
 export const spacing = {

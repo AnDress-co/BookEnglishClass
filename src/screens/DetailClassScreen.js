@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, Image, TouchableOpacity, Button } from 'react-native';
+import { BookingContext } from '../context/BookingContext';
 import { colors, spacing, typography, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,12 +9,21 @@ import LabelLevel from '../components/LabelLevel'
 
 export default function DetailClassScreen({ route, navigation }) {
     const insets = useSafeAreaInsets();
+    const { booking, addBooking } = useContext(BookingContext);
     const { dataClass } = route.params;
-    const [places, setPlaces] = useState(dataClass.cupos);
+    const [places, setPlaces] = useState(dataClass.cupos - booking.filter((item) => item.idClase === dataClass.id).length);
     const [schedule, setSchedule] = useState([dataClass.horarios[0]]);    
 
-    const deductPlace = () => {
+    const availableShedules = dataClass.horarios.filter((s) => {
+        const idBooking = dataClass.id + '-' + s;
+        return !booking.some((b) => b.id === idBooking);
+    });
+
+    const noShedule = availableShedules.length === 0;
+
+    const confirmBooking = () => {
         if (places > 0) {
+            addBooking(dataClass, schedule);
             setPlaces(places - 1);
             Alert.alert("Reserva exitosa", "Has reservado un cupo para esta clase.");
         } else {
@@ -21,14 +31,14 @@ export default function DetailClassScreen({ route, navigation }) {
         }
 
     };
-    
+
     const handleReserve = () => {
         Alert.alert(
             "Confirmación",
             "¿Reservar esta clase en el horario seleccionado: " + schedule + "?",
             [
                 { text: "No", onPress: () => Alert.alert("Operacion cancelada", "No se ha reservado ningún cupo.") },
-                { text: "Sí", onPress: () => deductPlace() }
+                { text: "Sí", onPress: () => confirmBooking() }
             ],
             { cancelable: false }
         );
@@ -80,7 +90,7 @@ export default function DetailClassScreen({ route, navigation }) {
                                     {'  '}Selecciona un horario para tu clase:
                                 </Text>
                                 {
-                                    dataClass.horarios.map((item) => (
+                                    availableShedules.map((item) => (
                                         <TouchableOpacity key={item} onPress={() => setSchedule(item)} style={[schedule == item && styles.shedulSelect]} >
                                             <LabelLevel key={item} level={item}/>
                                         </TouchableOpacity>                                            
@@ -101,11 +111,17 @@ export default function DetailClassScreen({ route, navigation }) {
                 </View>
                 <View style={styles.actionContainer}>
                     <TouchableOpacity
-                        style={styles.reserveButton}
+                        style={!noShedule ? styles.reserveButton : styles.noReserveButton}
                         onPress={() => { handleReserve(); }}
+                        disabled={noShedule}
                     >
                         <Text style={styles.reserveButtonText}>Reservar clase</Text>
                     </TouchableOpacity>
+                    {
+                        noShedule && (
+                            <Text style={[typography.body, {marginTop: spacing.md, color: colors.colorError}]}>No puedes reservar mas esta clase porque ya tomaste todos los horarios.</Text>
+                        )
+                    }
                 </View>
             </ScrollView>
         </View>
@@ -151,6 +167,12 @@ const styles = StyleSheet.create({
     actionContainer: { marginTop: spacing.lg, marginHorizontal: spacing.lg },
     reserveButton: {
         backgroundColor: colors.colorPrimary,
+        paddingVertical: spacing.lg,
+        borderRadius: radius.sm,
+        alignItems: 'center',
+    },
+    noReserveButton: {
+        backgroundColor: colors.colorError,
         paddingVertical: spacing.lg,
         borderRadius: radius.sm,
         alignItems: 'center',

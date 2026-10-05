@@ -266,3 +266,6 @@ export const CLASES = [
 
 export const formatearPrecio = (valor) =>
     "$" + valor.toLocaleString("es-CO") + " COP";
+
+export const formatearFecha = (fecha) => 
+    new Date(fecha).toLocaleDateString("es-CO");

@@ -24,7 +24,7 @@ export default function TabNavigation() {
                 name="Bookings"
                 component={BookingScreen}
                 options={{ 
-                    title: 'Reservas',
+                    title: 'Mis reservas',
                     tabBarIcon: ({ color, size }) => (
                         <Ionicons name="library" color={color} size={size} />
                     ),

@@ -14,10 +14,11 @@ export function BookingProvider({ children }) {
 
         const newBooking = {
             id: clase.id + '-' + schedule,
+            idClase: clase.id,
             titulo: clase.titulo,
             profesor: clase.profesor.nombre,
             precio: clase.precio,
-            schedule,
+            horario: schedule,
             creadoEn: new Date().toISOString()
         };                        
 
