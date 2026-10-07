@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { spacing, typography, colors, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
