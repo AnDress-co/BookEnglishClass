@@ -5,12 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function CardUser({ user, onPress }) {
     return (
-        <View style={style.card}>
-            <View>
+        <View style={style.card}>            
+            <View style={{paddingTop: spacing.xl}}>
+                <Text style={style.title}>Informacion Personal</Text>
                 <Image source={{ uri: user.foto }} resizeMode="cover" style={style.avatar}/>
             </View>
-            <View>
-                <Text style={[typography.subTitle, {textAlign:'center', marginBottom: spacing.md}]}>Informacion Personal:</Text>
+            <View>                
                 <Text style={style.textItem}>
                     <Text style={{ fontWeight: 'bold' }}> Nombre: </Text>
                     {user.nombre + ' ' + user.apellido}
@@ -43,6 +43,12 @@ const style = StyleSheet.create({
         backgroundColor: colors.colorSurface,
         borderRadius: radius.sm,
         margin: spacing.xxl,        
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.colorPrimary,
+
     },
     textItem: {
         marginBottom: spacing.sm,

@@ -1,26 +1,35 @@
-import react, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import react, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import CardUser from '../components/CardUser';
 import RegisterUser from '../components/RegisterUser';
+import UpdateUser from '../components/UpdateUser';
 import { spacing } from '../theme';
+import { UserContext } from '../context/UserContext';
 
 export default function ProfileScreen() {
     
-    const [ isRegister, setRegister ] = useState(false);
+    const { registeredUser, addUser } = useContext(UserContext);
+    const [ isRegister, setIsRegister ] = useState(registeredUser.isRegister || false);
+    const [ isUpdate, setIsUpdate] = useState(false);
 
-    const newUser = {
-        id: '1013462094',
-        foto: 'https://res.cloudinary.com/exs3lgp6/image/upload/v1791170243/Perfil.jpg',
-        nombre: 'Marlon',
-        apellido: 'Gomez',
-        correo: 'MarlonGomez@gmail.com',
-        telefono: '3066348019'
-    }
+    const handleProfile = async (user) => {
+        const registration = await addUser(user);
+        const successMessage = isUpdate ? "Se realizo la actualizacion de forma exitosa." : "Se realizo el registro de forma exitosa.";        
+
+        if(registration) {
+            Alert.alert("Operacion exitosa", successMessage);
+            setIsRegister(user.isRegister);
+            if(isUpdate) setIsUpdate(false);
+        } else {
+            Alert.alert("Operacion fallida", "No se realizo la operacion.");
+        }
+    };
 
     return (
         <View style={style.container}>
-            { !isRegister && <RegisterUser onPress={() => {}}/>}
-            { isRegister && <CardUser user={newUser} onPress={() => {}}/>}
+            { !isRegister && <RegisterUser onRegister={handleProfile}/>}
+            { (isRegister && !isUpdate) && <CardUser user={registeredUser} onPress={() => {setIsUpdate(true)}}/>}
+            { isUpdate && <UpdateUser registeredUser={registeredUser} onUpdate={handleProfile}/>}
         </View>
     );
 }

@@ -1,13 +1,13 @@
 import React, { createContext, useMemo, useCallback, use } from 'react';
 import useStorage from '../hooks/useStorage';
 
-const USER_STORAGE_KEY = '@user_mg24';
+const USER_STORAGE_KEY = '@user_mg23';
 
 
 export const UserContext = createContext(null);
 
 export function UserProvider({ children }) {    
-    const { value: user, ready, update } = useStorage(USER_STORAGE_KEY, []);
+    const { value: registeredUser, ready, update } = useStorage(USER_STORAGE_KEY, []);
 
     const addUser = useCallback(async(user) => {
 
@@ -15,11 +15,11 @@ export function UserProvider({ children }) {
 
         const newUser = {
             id: user.id,
-            foto: user.photo,
-            nombre: user.name,
-            apellido: user.lastName,
-            correo: user.email,
-            telefono: user.phone,
+            foto: user.foto,
+            nombre: user.nombre,
+            apellido: user.apellido,
+            correo: user.correo,
+            telefono: user.telefono,
             isRegister: user.isRegister
         };                        
 
@@ -30,10 +30,10 @@ export function UserProvider({ children }) {
     }, [ready, update]);
 
     const contextValue = useMemo(() => ({
-        user,
+        registeredUser,
         ready,
         addUser,
-    }), [user, ready, addUser]);
+    }), [registeredUser, ready, addUser]);
 
     return (
         <UserContext.Provider value={contextValue}>

@@ -3,61 +3,33 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import { spacing, typography, colors, radius } from '../theme/index';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function RegisterUser({onRegister}) {
-    const [id, setId] = useState('');
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
+export default function UpdateUser ({registeredUser, onUpdate}) {    
+    const [email, setEmail] = useState(registeredUser.correo);
+    const [phone, setPhone] = useState(registeredUser.telefono);
 
-    const handleRegister = () => {
-        const newUser = {
-            id: id,
+    const handleUpdate = () => {
+        const user = {
+            id: registeredUser.id,
             foto: 'https://res.cloudinary.com/exs3lgp6/image/upload/v1791170243/Perfil.jpg',
-            nombre: name,
-            apellido: lastName,
+            nombre: registeredUser.nombre,
+            apellido: registeredUser.apellido,
             correo: email,
             telefono: phone,
             isRegister: true
         }
 
-        onRegister(newUser);
+        onUpdate(user);
     }    
 
     return (
         <View style={style.card}>
             <View>
                 <View style={{margin: spacing.md}}>
-                    <Text style={style.titleRegister}>
-                        Bienvenido
-                        <Ionicons name='people-circle' size={30} color={colors.colorPrimary}/>
-                    </Text>
-                    <Text style={style.textItem}>Registra tu cuenta aqui:</Text>
-                </View>
-                <Text style={style.textItem}>Documento:</Text>            
-                <TextInput
-                    style={style.input}
-                    value={id}
-                    onChangeText={setId}                    
-                    autoComplete={false}
-                    autoCorrect={false}
-                />
-                <Text style={style.textItem}>Nombre:</Text>            
-                <TextInput
-                    style={style.input}
-                    value={name}
-                    onChangeText={setName}                    
-                    autoComplete={false}
-                    autoCorrect={false}
-                />
-                <Text style={style.textItem}>Apellido:</Text>            
-                <TextInput
-                    style={style.input}
-                    value={lastName}
-                    onChangeText={setLastName}                    
-                    autoComplete={false}
-                    autoCorrect={false}
-                />
+                    <Text style={style.title}>
+                        Actualizar datos {' '}
+                        <Ionicons name='layers-outline' size={25} color={colors.colorPrimary}/>
+                    </Text>                    
+                </View>                
                 <Text style={style.textItem}>Correo:</Text>            
                 <TextInput
                     style={style.input}
@@ -74,12 +46,12 @@ export default function RegisterUser({onRegister}) {
                     autoComplete={false}
                     autoCorrect={false}
                 />
-            </View>                        
+            </View>
             <View>
-                <TouchableOpacity style={style.registerButton} onPress={handleRegister}>
+                <TouchableOpacity style={style.updateButton} onPress={handleUpdate}>
                     <Text style={{color: '#ffff', fontWeight: 'bold', fontSize: 15}}>
-                        Registrarse {'  '}
-                        <Ionicons name='finger-print-outline' size={20} color={'#ffff'}/>
+                        Guardar Cambios {'  '}
+                        <Ionicons name='pencil' size={20} color={'#ffff'}/>
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -95,7 +67,7 @@ const style = StyleSheet.create({
         borderRadius: radius.sm,
         margin: spacing.xxl,        
     },
-    titleRegister: {
+    title: {
         fontSize: 22,
         fontWeight: 'bold',
         color: colors.colorPrimary,
@@ -106,7 +78,7 @@ const style = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold',
     },
-    registerButton: {
+    updateButton: {
         backgroundColor: colors.colorPrimary,
         paddingVertical: spacing.lg,
         borderRadius: radius.sm,
